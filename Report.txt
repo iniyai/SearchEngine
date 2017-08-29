@@ -1,0 +1,75 @@
+SpellCorrector
+For the Spell Correct Program, I first extracted all the content inside the HTML Tags using the Apache Tika - Tika JAR file in JAVA. This file was named big.txt.
+From big.txt, Peter Norvig's Spell Correcter program was used to produce a dictionary of the words. This file is called Searialized dictionary.
+The Spell Corrector Program provides correction for words within edit distance(minimum number of transformations- insertion, deletion, substituion, transposition)
+of one or two. The Serialized dictionary is only generated once, from then on, the words are only taken as input and checked with the Dictionary to come up with the correct spelling.
+The main function of Spell Corrector program is 'correct'. This function is called from my main Search Engine program. That is the whole Spell Correction.
+
+AutoSuggest:
+For the autosuggest, I configured Solr request handler to use the Fuzzy Lookup Factory in Solr.
+And then from my main hw5.php file, I make an AJAX request to another PHP file that in turn makes a call REST endpoint which produces the suggested autocomplete.
+An example of the JSON returned by the REST endpoint for the word 'cali' is :
+
+{
+  "responseHeader":{
+    "status":0,
+    "QTime":0},
+  "suggest":{"suggest":{
+      "cali":{
+        "numFound":5,
+        "suggestions":[{
+            "term":"cali",
+            "weight":17,
+            "payload":""},
+          {
+            "term":"click",
+            "weight":18273,
+            "payload":""},
+          {
+            "term":"clientcodemod",
+            "weight":9996,
+            "payload":""},
+          {
+            "term":"california",
+            "weight":9338,
+            "payload":""},
+          {
+            "term":"caid",
+            "weight":5227,
+            "payload":""}]}}}}
+
+This JSON is parsed and the suggested words are sent as a comma separated string to the main PHP file 'hw5.php'.
+The PHP file takes this list, and displays it as a select option menu to the user.
+
+Snippets:
+The HTML file is extracted from the filesystem using file get contents. The content inside the script tag is thrown away.
+Only the body of the file is extracted and a regular expression match for the query term is searched for in the document.
+If it is found, the text starting from the query word for a length of 156 characters is displayed to the user.
+If there is no match in the document, a corresponding message is displayed.
+The regular expression matching and stripping out of tags is done in PHP.
+
+Tools used:
+Peter Norvig's SpellCorrect Program.
+Apache Tika
+MAMP
+Solr - Suggest and Select Component(Request Handler)
+
+Techniques:
+AJAX call to the autosuggest program
+Regular Expression Matching
+Stripping out the HTML and script tags and content
+
+Analysis of the Results -
+SpellCorrect - 5 words handled correctly
+Rusasi
+Illegal Immigartion
+NUSA
+brxit
+dondal trump
+
+AutoSuggest:
+cal - cal,canonical,clear,catch,columnist,click,col,clearboth,category,color
+don - don,do,doesn't,document,domain,document.write,document.cookie,dot,dynamic,dorm
+sna - snap,snippetthumbind,snippettruncati,snippets,snippetthumb,snag,shape,shaped,staples,shapiro
+rus - resourcename,rss,result,results,responsive,resultstarget,resultsuri,reserved,residents,russell
+pro - pro,previous,property,prop15,prop4,prop5,protection,prev,prevpagetrack,prop12
